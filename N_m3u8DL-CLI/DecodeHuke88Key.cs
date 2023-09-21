@@ -14,7 +14,7 @@ namespace N_m3u8DL_CLI
         private static string[] GetOverlayInfo(string url)
         {
             var enc = new Regex("eyJ\\w{100,}").Match(url).Value;
-            var json = Encoding.UTF8.GetString(Convert.FromBase64String(enc));
+            var json = Encoding.UTF8.GetString(Convert.FromBase64String(enc + new string('=', (4 - enc.Length %4) % 4)));
             JObject jObject = JObject.Parse(json);
             var key = jObject["overlayKey"].ToString();
             var iv = jObject["overlayIv"].ToString();
